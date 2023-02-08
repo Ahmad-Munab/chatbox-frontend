@@ -1,6 +1,10 @@
 const initialStates = {
-  users: [],
+  users: null,
   loadingUsers: false,
+  friends: null,
+  loadingFriends: false,
+  chats: null,
+  loadingChats: false,
   error: null
 }
 

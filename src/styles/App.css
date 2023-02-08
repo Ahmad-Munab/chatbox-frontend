@@ -1,0 +1,141 @@
+
+
+body, #root, .App {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: Poppins;
+  width: 100vw;
+  height: 100vh;
+}
+
+.home-nav {
+  width: 100vw;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+
+  padding: 1rem 2rem ;
+
+  background: #f0f4fa;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+.home-nav-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.7rem;
+  
+}
+.home-nav-items > * {
+  font-size: 1.6rem;
+  font-weight:500;
+  text-decoration: none;
+  color: #4400ff;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f0f4fa;
+  margin-left: 10px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: linear-gradient(#6655ec,#1458f7);
+}
+
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1.1rem;
+  gap: 1.2rem;
+
+  width: 129px;
+  height: 100vh;
+  background: #f0f4fa;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.nav-icons {
+  text-align: center;
+  padding: 0.7rem 1rem;
+  transition: all 0.20s ease-in-out;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 0.8rem;
+  left: 25.2rem;
+  font-size: 1.47rem;
+  transition: all 0.2s;
+  color: #709ce6;
+}
+.searchIcon:hover {
+  top: 0.75rem;
+  font-size: 1.51rem;
+  color: #0664f1;
+}
+.username-input {
+  background: #eaf2fe;
+  border-radius: 20px;
+  color: #709ce6;
+}
+.username-input-label {
+  color: #709ce6;
+}
+
+.section-1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  
+
+  width: 384px;
+  height: 100vh;
+  padding: 1.57rem;
+  background: #f8faff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.add-plus-div {
+  width: 327px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 1rem;
+  margin-bottom: 0.4rem ;
+}
+
+.thin-blue {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.1rem;
+  line-height: 20px;
+
+  color: #709ce6;
+}
+.plus-icon {
+    position: relative;
+    right: 0.1rem;
+    font-size: 1.3rem;
+}
+.plus-icon:hover {
+    color: #376eef;
+}
+
+.section-2 {
+  width:inherit;
+  height: 100vh;
+  background: #f0f4fa;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.rounded-5 {
+  border-radius: 100%;
+}

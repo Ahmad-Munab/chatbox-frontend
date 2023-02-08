@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <div>
-      <nav>
+      <nav className="home-nav">
         <Link to="/">
-          <img style={{width: "13rem"}} src={require("../images/Chatbox101.PNG")} alt="Chatbox101" />
+          <img style={{width: "64px"}} src={require("../images/Chatbox101.png")} alt="Chatbox101" />
         </Link>
-        <Link to="/app">Opne Chats</Link>
-        <Link to={"/register"}>Register</Link>
+        <div className="home-nav-items">
+          <Link to="/app/chats">Open Chats</Link>
+          <Link to={"/register"}>Register</Link>
+        </div>
       </nav>
     </div>
   );

@@ -1,0 +1,18 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.show-hide-icon {
+    position: absolute;
+    top: 1.4rem;
+    right: 2rem;
+}
+
+.auth-container {
+    position: absolute;
+    top:30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    padding: 1.4rem;
+    width: clamp(22rem, 30% , 40rem);
+}
