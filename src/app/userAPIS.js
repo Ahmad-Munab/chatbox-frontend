@@ -6,9 +6,22 @@ const API_BASE = process.env.REACT_APP_API_BASE;
 const CLOUDINARY_CLOUD_NAME=process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
 const CLOUDINARY_API_KEY=process.env.REACT_APP_CLOUDINARY_API_KEY
 
-const { registerUserRequest, registerUserSuccess, registerUserFailed, loginUserRequest, loginUserSuccess, loginUserFailed, getUsersRequest, getUsersSuccess, getUsersFailed } =  require('./actions')
+const { registerUserRequest, registerUserSuccess, registerUserFailed, loginUserRequest, loginUserSuccess, loginUserFailed, getUsersRequest, getUsersSuccess, getUsersFailed, saveUserData } =  require('./actions')
 
 
+
+export const getUserData = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get(API_BASE+"/api/user/data", {
+      headers: {
+        'Authorization': `Bearer ${JSON.parse(localStorage.getItem("jwt"))}`
+       }
+    })
+    dispatch(saveUserData(data))
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export const getUsers = username => async (dispatch) => {
   dispatch(getUsersRequest())

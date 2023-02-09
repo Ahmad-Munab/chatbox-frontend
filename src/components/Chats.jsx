@@ -34,6 +34,7 @@ const Chats = () => {
                 }}
               >
                 <img
+                className="rounded-circle"
                   style={{ width: "50px", background: "transparent" }}
                   src={chat.users[1].profilePic}
                   alt={chat.users[1].username}

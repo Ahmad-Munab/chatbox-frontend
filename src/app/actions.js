@@ -19,3 +19,5 @@ export const removeFriendFailed = error => ({ type: "REMOVE_FRIEND_FAILED", payl
 export const getChatsRequest = () => ({ type: "GET_CHATS_REQUEST" })
 export const getChatsSuccess = chats => ({ type: "GET_CHATS_SUCCESS", payload: chats })
 export const getChatsFailed = error => ({ type: "GET_CHATS_FAILED", payload: error })
+
+export const saveUserData = data => ({ type: "SAVE_USER_DATA", payload: data })

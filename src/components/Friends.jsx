@@ -30,7 +30,7 @@ const Friends = () => {
         ) : friends !== null && friends.length > 0 ? (
           friends.map((friend) => (
             <div key={friend._id} className="p-3 rounded-4 w-100 d-flex align-items-center gap-3 shadow-sm bg-white">
-              <img src={friend.profilePic} alt={friend.username} style={{ width: "50px", background: "transparent" }} className=""/>
+              <img src={friend.profilePic} alt={friend.username} style={{ width: "50px", background: "transparent" }} className="rounded-circle"/>
               <h4 className="text-center">{friend.username}</h4>
               {/* <FontAwesomeIcon icon="fa-regular fa-user-xmark" /> */}
               <i className="fa-solid fa-user-minus fs-4 ms-auto" onClick={() => handleRemovingFriend(friend._id)}></i>

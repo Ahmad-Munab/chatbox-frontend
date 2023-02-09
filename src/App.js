@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import './styles/App.css'
 
 import { ToastContainer } from "react-toastify";
+import CheckAuth from './components/CheckAuth.js';
 
 function App() {
   return (
@@ -13,8 +14,10 @@ function App() {
       <Routes>
         <Route path='/*' element={<Home/>}/>
         <Route path='/app/*' element={<ChatApp/>}/>
-        <Route path='/register' element={<Register/>}/>
-        <Route path='/login' element={<Login/>}/>
+        <Route path='/' element={<CheckAuth/>}>
+          <Route path='/register' element={<Register/>}/>
+          <Route path='/login' element={<Login/>}/>
+        </Route>
       </Routes>
       <ToastContainer />
     </div>

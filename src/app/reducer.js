@@ -8,6 +8,7 @@ const reducer = (state = initialStates, action) => {
         thisUser: {
           username: action.payload.username,
           handle: action.payload.handle,
+          profilePic: action.payload.profilePic,
           friends: action.payload.friends,
         },
       };

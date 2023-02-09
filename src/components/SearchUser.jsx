@@ -70,7 +70,7 @@ const SearchUser = () => {
                     )
                     .map((user) => (
                       <div key={user._id} className="d-flex justify-content-start m-2 p-3 gap-3 border rounded-3">
-                        <img src={user.profilePic} alt={user.username} style={{width: "50px"}} className="rounded-5"/>
+                        <img src={user.profilePic} alt={user.username} style={{width: "50px"}} className="rounded-circle"/>
                         <h5>{user.username}</h5>
                         <p>{user.handle}</p>
                         <i className={`fa-regular fa-square-plus my-auto ms-auto me-2 fs-2 btn`} onClick={() => handleAddingFriend(user._id)}></i>

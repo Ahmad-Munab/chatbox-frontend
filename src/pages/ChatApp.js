@@ -5,7 +5,16 @@ import NavBar from "../components/NavBar";
 import PrivetChat from "../components/PrivetChat";
 import RequireAuth from "../components/RequireAuth";
 
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getUserData } from "../app/userAPIS";
+
 const ChatApp = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserData())
+  },[dispatch])
+  
   return (
     <div className="app d-flex">
       <Routes>
