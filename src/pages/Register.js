@@ -39,7 +39,7 @@ const Register = () => {
 
   useEffect(() => {
     if (loginUserSuccess && loginUserSuccess !== null) {
-      setTimeout(() => window.location.href = "/app/chats", 1000)
+      setTimeout(() => window.location.href = "/app/chats", 100)
     }
   },[loginUserSuccess])
 

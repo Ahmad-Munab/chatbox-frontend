@@ -28,7 +28,7 @@ const Login = () => {
 
   useEffect(() => {
       if (loginUserSuccess && loginUserSuccess !== null) {
-        setTimeout(() => window.location.href = "/app/chats", 1000)
+        setTimeout(() => window.location.href = "/app/chats", 100)
       }
   },[loginUserSuccess])
 
@@ -73,7 +73,7 @@ const Login = () => {
                 cursor="pointer"
               />
             )}
-            <label for="password" className="form-label">
+            <label htmlFor="password" className="form-label">
               Password
             </label>
           </div>

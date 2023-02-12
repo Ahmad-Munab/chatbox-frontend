@@ -10,7 +10,7 @@ export const getChats = () => async (dispatch) => {
     try {
       const { data } = await axios.get(API_BASE+`/api/chat`, {
         headers: {
-          'Authorization': `Bearer ${JSON.parse(localStorage.getItem("jwt"))}`
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("jwt"))}`
          }
       });
       dispatch(getChatsSuccess(data))

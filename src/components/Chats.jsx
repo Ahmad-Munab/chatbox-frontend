@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getChats } from "../app/chatAPIS";
 
 const Chats = () => {
-  const { chats, loadingChats } = useSelector((state) => state.default);
+  const { chats, loadingChats, thisUser } = useSelector((state) => state.default);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -12,12 +12,12 @@ const Chats = () => {
   }, [dispatch, chats]);
 
   return (
-    <div className="d-flex">
+    <div className="d-flex w-100">
       <div className="section-1">
         <h2 className="fw-semibold">Chats</h2>
         <hr className="w-100 bg-black mt-0" />
         <div className="vstack gap-4 overflow-auto hide-scrollbar">
-          {loadingChats ? (
+          {loadingChats || !thisUser ? (
             <p className="text-center">Loading...</p>
           ) : chats !== null && chats.length > 0 ? (
             chats.map((chat) => (
@@ -36,11 +36,11 @@ const Chats = () => {
                 <img
                 className="rounded-circle"
                   style={{ width: "50px", background: "transparent" }}
-                  src={chat.users[1].profilePic}
-                  alt={chat.users[1].username}
+                  src={chat.users[1].profilePic !== thisUser.profilePic ? chat.users[1].profilePic : chat.users[0].profilePic}
+                  alt={chat.users[1].username !== thisUser.username ? chat.users[1].username : chat.users[0].username}
                 />
                 <div className="vstack gap-1 ms-3 text-start ">
-                  <h3 className="m-0">{chat.users[1].username}</h3>
+                  <h3 className="m-0">{chat.users[1].username !== thisUser.username ? chat.users[1].username : chat.users[0].username}</h3>
                   <div>Last messaage</div>
                   
                 </div>

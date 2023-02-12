@@ -9,8 +9,9 @@ const reducer = (state = initialStates, action) => {
           username: action.payload.username,
           handle: action.payload.handle,
           profilePic: action.payload.profilePic,
-          friends: action.payload.friends,
         },
+        friends: action.payload.friends,
+        chats: action.payload.chats,
       };
     case "REGISTER_USER_REQUEST":
       return {
@@ -115,11 +116,16 @@ const reducer = (state = initialStates, action) => {
         error: null,
       };
     case "REMOVE_FRIEND_SUCCESS":
+      console.log(action.payload.deletedChatId)
       return {
         ...state,
         loadingFriends: false,
-        friends: state.friends.filter(friend => friend._id !== action.payload.deletedFriendId),
-        chats: state.chats.filter(chat => chat._id !== action.payload.deletedChatId),
+        friends: state.friends.filter(
+          (friend) => friend._id !== action.payload.deletedFriendId
+        ),
+        chats: state.chats.filter(
+          (chat) => chat._id !== action.payload.deletedChatId
+        ),
         error: null,
       };
     case "REMOVE_FRIEND_FAILED":
@@ -145,6 +151,73 @@ const reducer = (state = initialStates, action) => {
       return {
         ...state,
         loadingChats: false,
+        error: action.payload,
+      };
+    case "GET_MESSAGES_REQUEST":
+      return {
+        ...state,
+        loadingMessages: true,
+        error: null,
+      };
+    case "GET_MESSAGES_SUCCESS":
+      const chatId = action.payload.chatId;
+      const chats = state.chats.map((chat) => {
+        if (chat._id === chatId) {
+          return {
+            ...chat,
+            messages: chat.messages
+              ? [...chat.messages, ...action.payload.messages]
+              : action.payload.messages,
+          };
+        }
+        return chat;
+      });
+
+      return {
+        ...state,
+        loadingMessages: false,
+        chats,
+        error: null,
+      };
+
+    case "GET_MESSAGES_FAILED":
+      return {
+        ...state,
+        loadingMessages: false,
+        error: action.payload,
+      };
+    case "SEND_MESSAGE_REQUEST":
+      return {
+        ...state,
+        sendingMessage: true,
+        error: null,
+      };
+    case "SEND_MESSAGE_SUCCESS":
+      console.log(action.payload.message)
+      const newChats = state.chats.map((chat) => {
+        console.log(chat, ": a chat")
+        if (chat._id === action.payload.message.to) {
+          return {
+            ...chat,
+            messages: chat.messages
+            ? [...chat.messages, action.payload.message]
+            : [action.payload.message],
+          };
+        }
+        return chat;
+      });
+
+      return {
+        ...state,
+        loadingMessages: false,
+        chats : newChats,
+        error: null,
+      };
+
+    case "SEND_MESSAGE_FAILED":
+      return {
+        ...state,
+        sendingMessage: false,
         error: action.payload,
       };
     default:

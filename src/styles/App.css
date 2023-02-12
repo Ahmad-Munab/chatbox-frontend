@@ -1,6 +1,6 @@
-
-
-body, #root, .App {
+body,
+#root,
+.App {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
@@ -15,7 +15,7 @@ body, #root, .App {
   display: flex;
   justify-content: space-between;
 
-  padding: 1rem 2rem ;
+  padding: 1rem 2rem;
 
   background: #f0f4fa;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
@@ -25,11 +25,10 @@ body, #root, .App {
   justify-content: center;
   align-items: center;
   gap: 1.7rem;
-  
 }
 .home-nav-items > * {
   font-size: 1.6rem;
-  font-weight:500;
+  font-weight: 500;
   text-decoration: none;
   color: #4400ff;
 }
@@ -43,28 +42,31 @@ body, #root, .App {
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: linear-gradient(#6655ec,#1458f7);
+  background: linear-gradient(#6655ec, #1458f7);
 }
 
 
 .navbar {
+  background: #f0f4fa;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  width: 129px;
+  height: 100vh;
+}
+
+.navbar-top {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   padding: 1.1rem;
   gap: 1.2rem;
-
-  width: 129px;
-  height: 100vh;
-  background: #f0f4fa;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: auto;
 }
 
 .nav-icons {
   text-align: center;
   padding: 0.7rem 1rem;
-  transition: all 0.20s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .searchIcon {
@@ -93,7 +95,6 @@ body, #root, .App {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  
 
   width: 384px;
   height: 100vh;
@@ -109,7 +110,7 @@ body, #root, .App {
   align-items: center;
 
   margin-top: 1rem;
-  margin-bottom: 0.4rem ;
+  margin-bottom: 0.4rem;
 }
 
 .thin-blue {
@@ -121,21 +122,65 @@ body, #root, .App {
   color: #709ce6;
 }
 .plus-icon {
-    position: relative;
-    right: 0.1rem;
-    font-size: 1.3rem;
+  position: relative;
+  right: 0.1rem;
+  font-size: 1.3rem;
 }
 .plus-icon:hover {
-    color: #376eef;
+  color: #376eef;
 }
 
 .section-2 {
-  width:inherit;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   background: #f0f4fa;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+.section-2 > * {
+  margin: 0;
+}
+.chat-header {
+  height: 99px;
+  background: #f8faff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+
+  align-items: center;
+}
+.chat-body {
+  background: #f0f4fa;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.chat-footer {
+  height: 99px;
+  background: #f8faff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 .rounded-5 {
   border-radius: 100%;
+}
+
+.form-control {
+  background: #eaf2fe;
+  border-radius: 10px;
+}
+
+.message-link-icon {
+  position: absolute;
+  color: #709CE6;
+}
+.message-smile-icon {
+  position: absolute;
+  right: 1rem;
+  color: #709CE6;
 }

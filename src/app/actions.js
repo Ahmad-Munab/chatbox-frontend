@@ -19,5 +19,11 @@ export const removeFriendFailed = error => ({ type: "REMOVE_FRIEND_FAILED", payl
 export const getChatsRequest = () => ({ type: "GET_CHATS_REQUEST" })
 export const getChatsSuccess = chats => ({ type: "GET_CHATS_SUCCESS", payload: chats })
 export const getChatsFailed = error => ({ type: "GET_CHATS_FAILED", payload: error })
+export const getMessagesRequest = () => ({ type: "GET_MESSAGES_REQUEST" })
+export const getMessagesSuccess = (messages, chatId) => ({ type: "GET_MESSAGES_SUCCESS", payload: {messages, chatId} })
+export const getMessagesFailed = error => ({ type: "GET_MESSAGES_FAILED", payload: error })
+export const sendMessageRequest = () => ({ type: "SEND_MESSAGE_REQUEST" })
+export const sendMessageSuccess = (message) => ({ type: "SEND_MESSAGE_SUCCESS", payload: {message}})
+export const sendMessageFailed = error => ({ type: "SEND_MESSAGE_FAILED", payload: error })
 
 export const saveUserData = data => ({ type: "SAVE_USER_DATA", payload: data })

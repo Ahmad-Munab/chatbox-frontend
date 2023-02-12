@@ -13,47 +13,49 @@ const NavBar = () => {
   return (
     <>
       <div className="navbar">
+        <div className="navbar-top">
         <NavLink to="/app" className="mb-4">
-          <img
-            style={{ width: "64px" }}
-            src={require("../images/Chatbox101.png")}
-            alt="Chatbox101"
-          />
-        </NavLink>
-        <NavLink
-          to="/app/chats"
-          style={({ isActive }) => {
-            return isActive
-              ? { background: "#5B96F6", color: "white" }
-              : { background: "transparent", color: "black" };
-          }}
-          className="nav-icons rounded-4"
-        >
-          <i
-            className="fa-regular fa-comment-dots fs-2"
-            style={{ width: "50px" }}
-          />
-        </NavLink>
-        <NavLink
-          to="/app/friends"
-          style={({ isActive }) => {
-            return isActive
-              ? { background: "#5B96F7", color: "white" }
-              : { background: "transparent", color: "black" };
-          }}
-          className="nav-icons rounded-4"
-        >
-          <TbUsers className="fs-2" style={{ width: "50px" }} />
-        </NavLink>
+            <img
+              style={{ width: "64px" }}
+              src={require("../images/Chatbox101.png")}
+              alt="Chatbox101"
+            />
+          </NavLink>
+          <NavLink
+            to="/app/chats"
+            style={({ isActive }) => {
+              return isActive
+                ? { background: "#5B96F6", color: "white" }
+                : { background: "transparent", color: "black" };
+            }}
+            className="nav-icons rounded-4"
+          >
+            <i
+              className="fa-regular fa-comment-dots fs-2"
+              style={{ width: "50px" }}
+            />
+          </NavLink>
+          <NavLink
+            to="/app/friends"
+            style={({ isActive }) => {
+              return isActive
+                ? { background: "#5B96F7", color: "white" }
+                : { background: "transparent", color: "black" };
+            }}
+            className="nav-icons rounded-4"
+          >
+            <TbUsers className="fs-2" style={{ width: "50px" }} />
+          </NavLink>
+        </div>
         {thisUser ? (
-          <div className="navbar-bottom mt-5 vstack gap-5 text-center">
+          <div className="navbar-bottom mt-auto vstack gap-5 text-center">
             <i
               className="fa-solid fa-arrow-right-from-bracket fs-2 btn hover-shadow-sm"
               data-bs-toggle="modal"
-              data-bs-target="#modal"
+              data-bs-target="#logout-modal"
               
             />
-            <div className="modal fade" tabindex="-1" id="modal">
+            <div className="modal fade" tabIndex="-1" id="logout-modal">
               <div className="modal-dialog">
                 <div className="modal-content">
                   <div className="modal-header">

@@ -5,6 +5,8 @@ const initialStates = {
   loadingFriends: false,
   chats: null,
   loadingChats: false,
+  messages: null,
+  loadingMessages: false,
   error: null
 }
 

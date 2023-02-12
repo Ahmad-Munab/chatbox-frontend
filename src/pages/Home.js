@@ -6,7 +6,7 @@ const Home = () => {
     <div>
       <nav className="home-nav">
         <Link to="/">
-          <img style={{width: "64px"}} src={require("../images/Chatbox101.png")} alt="Chatbox101" />
+          <img style={{width: "64px"}} src={require("../images/Chatbox101.png")} alt="Chatox101" />
         </Link>
         <div className="home-nav-items">
           <Link to="/app/chats">Open Chats</Link>

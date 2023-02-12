@@ -12,11 +12,17 @@ const { registerUserRequest, registerUserSuccess, registerUserFailed, loginUserR
 
 export const getUserData = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(API_BASE+"/api/user/data", {
+    let { data } = await axios.get(API_BASE+"/api/user/data", {
       headers: {
         'Authorization': `Bearer ${JSON.parse(localStorage.getItem("jwt"))}`
        }
     })
+    data = {
+      ...data.user,
+      friends: data.user.friends,
+      chats: data.chats
+    }
+    console.log(data)
     dispatch(saveUserData(data))
   } catch (error) {
     console.error(error)
@@ -48,32 +54,34 @@ export const registerUser = (username, handle, password, profilePic) => async (d
   let success = "Signed Up successfully";
   let error = "Error while Signing Up";
 
-
-  // get signature. In reality you could store this in localstorage or some other cache mechanism, it's good for 1 hour
-  const signatureResponse = await axios.get(API_BASE+"/get-cloud-signature")
-  console.log(signatureResponse)
-  console.log(profilePic)
-
-  const data = new FormData()
-  data.append("file", profilePic)
-  data.append("api_key", CLOUDINARY_API_KEY)
-  data.append("signature", signatureResponse.data.signature)
-  data.append("timestamp", signatureResponse.data.timestamp)
-  console.log(data)
-
-  const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`, data, {
-    headers: { "Content-Type": "multipart/form-data" },
-    onUploadProgress: function (e) {
-      console.log(e.loaded / e.total)
-    }
-  })
-  console.log(cloudinaryResponse.data)
-
-  // send the image info back to our server
-  const photoData = {
-    public_id: cloudinaryResponse.data.public_id,
-    version: cloudinaryResponse.data.version,
-    signature: cloudinaryResponse.data.signature
+  let photoData = undefined;
+  if (profilePic) {
+      // get signature. In reality you could store this in localstorage or some other cache mechanism, it's good for 1 hour
+      const signatureResponse = await axios.get(API_BASE+"/get-cloud-signature")
+      console.log(signatureResponse)
+      console.log(profilePic)
+  
+      const data = new FormData()
+      data.append("file", profilePic)
+      data.append("api_key", CLOUDINARY_API_KEY)
+      data.append("signature", signatureResponse.data.signature)
+      data.append("timestamp", signatureResponse.data.timestamp)
+      console.log(data)
+  
+      const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: function (e) {
+          console.log(e.loaded / e.total)
+        }
+      })
+      console.log(cloudinaryResponse.data)
+  
+      // send the image info back to our server
+      photoData = {
+        public_id: cloudinaryResponse.data.public_id,
+        version: cloudinaryResponse.data.version,
+        signature: cloudinaryResponse.data.signature
+      }
   }
 
 
@@ -85,14 +93,12 @@ export const registerUser = (username, handle, password, profilePic) => async (d
           username,
           handle,
           password,
-          public_id: photoData.public_id,
-          signature: photoData.signature,
-          version: photoData.version
+          ...photoData
         });
 
         dispatch(registerUserSuccess(data));
         localStorage.setItem("jwt", JSON.stringify(data.jwt));
-
+        
         resolve(data);
       } catch (err) {
         if (err.response.data.message) {

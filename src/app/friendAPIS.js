@@ -41,7 +41,8 @@ export const addFriend = (_id) => async (dispatch) => {
       API_BASE + "/api/user/friends",
       {
         friendId: _id,
-      },{
+      },
+      {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem("jwt"))}`,
         },
@@ -63,16 +64,14 @@ export const addFriend = (_id) => async (dispatch) => {
 export const removeFriend = (_id) => async (dispatch) => {
   dispatch(removeFriendRequest());
   try {
-    const { data } = await axios.delete(
-      API_BASE + "/api/user/friends",
-      {
+    const { data } = await axios.delete(API_BASE + "/api/user/friends", {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("jwt"))}`,
+      },
+      data: {
         friendId: _id,
-      },{
-        headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("jwt"))}`,
-        },
-      }
-    );
+      },
+    });
     toast.success("Friend removed!");
     dispatch(removeFriendSuccess(data.deletedFriendId, data.deletedChatId));
   } catch (err) {

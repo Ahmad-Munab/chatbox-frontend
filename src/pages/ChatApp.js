@@ -22,7 +22,7 @@ const ChatApp = () => {
           <Route path="/" element={<NavBar/>}>
             <Route path="/friends" element={<Friends/>}/>
             <Route path="/chats" element={<Chats/>}>
-                <Route path="/chats/:name" element={<PrivetChat/>}/>
+                <Route path="/chats/:chatId" element={<PrivetChat/>}/>
             </Route>
           </Route>
         </Route>
