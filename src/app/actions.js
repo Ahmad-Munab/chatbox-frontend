@@ -27,3 +27,4 @@ export const sendMessageSuccess = (message) => ({ type: "SEND_MESSAGE_SUCCESS", 
 export const sendMessageFailed = error => ({ type: "SEND_MESSAGE_FAILED", payload: error })
 
 export const saveUserData = data => ({ type: "SAVE_USER_DATA", payload: data })
+export const dnf = error => ({ type: "ERROR", payload: error })

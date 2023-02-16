@@ -9,6 +9,11 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getUserData } from "../app/userAPIS";
 
+import io from "socket.io-client"
+const API_BASE = process.env.REACT_APP_API_BASE
+
+const socket = io.connect(API_BASE)
+
 const ChatApp = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -22,7 +27,7 @@ const ChatApp = () => {
           <Route path="/" element={<NavBar/>}>
             <Route path="/friends" element={<Friends/>}/>
             <Route path="/chats" element={<Chats/>}>
-                <Route path="/chats/:chatId" element={<PrivetChat/>}/>
+                <Route path="/chats/:chatId" element={<PrivetChat socket={socket}/>}/>
             </Route>
           </Route>
         </Route>

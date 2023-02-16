@@ -13,7 +13,7 @@ import "../styles/Auth.model.css";
 
 
 const Register = () => {
-  const { loginUserSuccess } = useSelector((state) => state.default);
+  const { registerUserSuccess } = useSelector((state) => state.default);
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
@@ -38,10 +38,10 @@ const Register = () => {
   }
 
   useEffect(() => {
-    if (loginUserSuccess && loginUserSuccess !== null) {
+    if (registerUserSuccess && registerUserSuccess !== null) {
       setTimeout(() => window.location.href = "/app/chats", 100)
     }
-  },[loginUserSuccess])
+},[registerUserSuccess])
 
   return (
     <>

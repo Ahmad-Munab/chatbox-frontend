@@ -6,6 +6,8 @@ import { addFriend } from "../app/friendAPIS";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import UserListItem from "./UserListItem";
+
 const SearchUser = () => {
   const { users, loadingUsers, friends, thisUser } = useSelector(
     (state) => state.default
@@ -71,49 +73,27 @@ const SearchUser = () => {
               {loadingUsers ? (
                 <p className="m-3 fw-semibold">Loading...</p>
               ) : (
-                <div className="vstack gap-2 mt-3">
-                  {users !== null && thisUser &&
-                    users.length > 0 &&
-                    users
+                users !== null &&
+                thisUser && (
+                  <div className="vstack gap-2 mt-3">
+                    {users
                       .filter(
                         (user) =>
-                          user.username.toLowerCase().includes(username) ||
-                          user.handle.toLowerCase().includes(username)
+                          (user.username.toLowerCase().includes(username) ||
+                            user.handle.toLowerCase().includes(username)) &&
+                          user.handle !== thisUser.handle
                       )
-                      .filter((user) => user.handle !== thisUser.handle)
                       .map((user) => (
-                        <div
+                        <UserListItem
                           key={user._id}
-                          className="d-flex justify-content-start m-2 p-3 gap-3 border rounded-3"
-                        >
-                          <img
-                            src={user.profilePic}
-                            alt={user.username}
-                            style={{ width: "50px" }}
-                            className="rounded-circle"
-                          />
-                          <h5>{user.username}</h5>
-                          <p>{user.handle}</p>
-                          {friends.some(
-                            (friend) => friend["handle"] === user.handle
-                          ) ? (
-                            <i className="fa-solid fa-circle-check fs-2 text-center ms-auto"></i>
-                          ) : (
-                            <i
-                              className={`fa-regular fa-square-plus my-auto ms-auto me-2 fs-2 btn`}
-                              onClick={() => handleAddingFriend(user._id)}
-                            ></i>
-                          )}
-                        </div>
+                          user={user}
+                          friends={friends}
+                          onAddFriend={handleAddingFriend}
+                        />
                       ))}
-                  {(users === null ||
-                    users.filter(
-                      (user) =>
-                        user.username.toLowerCase().includes(username) ||
-                        user.handle.toLowerCase().includes(username)
-                    ).length < 1) &&
-                    `No user named ${username}`}
-                </div>
+                    {users.length === 0 && `No user named ${username}`}
+                  </div>
+                )
               )}
             </div>
           </div>

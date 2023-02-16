@@ -1,12 +1,12 @@
-import React, { useState} from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { sendMessageSuccess } from "../app/actions";
 import { sendMessage } from "../app/messageAPIS";
 
-function MessageBox({ chatId }) {
-  const [message, setMessage] = useState();
+function MessageBox({ chatId, socket }) {
+  const messageInput = useRef()
   const dispatch = useDispatch();
-
-
+  const { thisUser } = useSelector((state) => state.default)
 
   // const [permissionGranted, setPermissionGranted] = useState(false);
 
@@ -41,13 +41,30 @@ function MessageBox({ chatId }) {
   
 
 
-  function handleSendingMessage(e) {
+  async function handleSendingMessage(e) {
     e.preventDefault()
+    let message = messageInput.current.value
     if (!message || message.trim().length === 0) {
       return
     }
+
+    const message_data = {
+      from: thisUser._id,
+      to: chatId,
+      text: message,
+      createdAt: new Date().toISOString(),
+      _id: new Date().toISOString()
+    }
+    await socket.emit("send_message", message_data)
     dispatch(sendMessage(chatId, message))
+    messageInput.current.value = ""
   }
+
+  useEffect(() => {
+    socket.on("receive_message", (message_data) => {
+      dispatch(sendMessageSuccess(message_data))
+    })
+  }, [dispatch, socket])
 
   return (
     <form className="chat-footer" onSubmit={handleSendingMessage}>
@@ -59,7 +76,7 @@ function MessageBox({ chatId }) {
           name="message"
           id="message"
           placeholder="Send message"
-          onChange={(e) => setMessage(e.target.value)}
+          ref={messageInput}
         />
         <label htmlFor="message" className="form-label message-label">
           Send Message

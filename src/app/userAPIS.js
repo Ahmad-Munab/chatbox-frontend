@@ -6,7 +6,7 @@ const API_BASE = process.env.REACT_APP_API_BASE;
 const CLOUDINARY_CLOUD_NAME=process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
 const CLOUDINARY_API_KEY=process.env.REACT_APP_CLOUDINARY_API_KEY
 
-const { registerUserRequest, registerUserSuccess, registerUserFailed, loginUserRequest, loginUserSuccess, loginUserFailed, getUsersRequest, getUsersSuccess, getUsersFailed, saveUserData } =  require('./actions')
+const { registerUserRequest, registerUserSuccess, registerUserFailed, loginUserRequest, loginUserSuccess, loginUserFailed, getUsersRequest, getUsersSuccess, getUsersFailed, saveUserData, dnf } =  require('./actions')
 
 
 
@@ -22,10 +22,13 @@ export const getUserData = () => async (dispatch) => {
       friends: data.user.friends,
       chats: data.chats
     }
-    console.log(data)
+    
     dispatch(saveUserData(data))
   } catch (error) {
     console.error(error)
+    dnf(error)
+    localStorage.removeItem("jwt")
+    window.location.href = "/login"
   }
 }
 
@@ -66,7 +69,7 @@ export const registerUser = (username, handle, password, profilePic) => async (d
       data.append("api_key", CLOUDINARY_API_KEY)
       data.append("signature", signatureResponse.data.signature)
       data.append("timestamp", signatureResponse.data.timestamp)
-      console.log(data)
+      
   
       const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`, data, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -98,7 +101,7 @@ export const registerUser = (username, handle, password, profilePic) => async (d
 
         dispatch(registerUserSuccess(data));
         localStorage.setItem("jwt", JSON.stringify(data.jwt));
-        
+        window.location.href = "/app/chats"
         resolve(data);
       } catch (err) {
         if (err.response.data.message) {
@@ -135,7 +138,7 @@ export const updateUser = (username, password, profilePic) => async (dispatch) =
   data.append("api_key", CLOUDINARY_API_KEY)
   data.append("signature", signatureResponse.data.signature)
   data.append("timestamp", signatureResponse.data.timestamp)
-  console.log(data)
+  
 
   const cloudinaryResponse = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`, data, {
     headers: { "Content-Type": "multipart/form-data" },

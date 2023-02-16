@@ -6,6 +6,7 @@ const reducer = (state = initialStates, action) => {
       return {
         ...state,
         thisUser: {
+          _id: action.payload._id,
           username: action.payload.username,
           handle: action.payload.handle,
           profilePic: action.payload.profilePic,
@@ -193,14 +194,12 @@ const reducer = (state = initialStates, action) => {
         error: null,
       };
     case "SEND_MESSAGE_SUCCESS":
-      console.log(action.payload.message)
       const newChats = state.chats.map((chat) => {
-        console.log(chat, ": a chat")
         if (chat._id === action.payload.message.to) {
           return {
             ...chat,
             messages: chat.messages
-            ? [...chat.messages, action.payload.message]
+            ? (chat.messages.some((message) => message._id === action.payload.message._id) ? [...chat.messages] : [...chat.messages, action.payload.message])
             : [action.payload.message],
           };
         }
@@ -219,6 +218,11 @@ const reducer = (state = initialStates, action) => {
         ...state,
         sendingMessage: false,
         error: action.payload,
+      };
+    case "ERROR":
+      return {
+        ...state,
+        error: action.payload
       };
     default:
       return state;

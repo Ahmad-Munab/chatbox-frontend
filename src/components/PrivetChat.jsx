@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getMessages } from "../app/messageAPIS";
 // import Message from "./Message";
 import MessageBox from "./MessageBox";
 
-const PrivetChat = () => {
+const PrivetChat = ({ socket }) => {
   const { chatId } = useParams();
+  const [joinedChat, setJoinedChat] = useState(false);
 
   const dispatch = useDispatch();
   const { chats, loadingMessages, thisUser } = useSelector(
@@ -14,18 +15,31 @@ const PrivetChat = () => {
   );
 
   const [chatData, setChatData] = useState();
+  const chatBodyRef = useRef()
 
   useEffect(() => {
-    if (Array.isArray(chats) && !chatData) {
+    let thisChat = chats?.find((chat) => chat._id === chatId)
+    if (Array.isArray(chats) && !chatData && !thisChat?.messages) {
       dispatch(getMessages(chatId));
     }
-  }, [dispatch, chatId, chats, chatData]);
+
+    if (!joinedChat) {
+      socket.emit("join_chat", chatId)
+      setJoinedChat(true)
+    }
+  }, [dispatch, chatId, chats, chatData, socket, joinedChat]);
 
   useEffect(() => {
     if (chats !== null) {
       setChatData(chats.find((chat) => chat._id === chatId));
     }
   }, [chats, chatId]);
+
+  useEffect(() => {
+    if (chatData?.messages?.length > 0) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [chatData]);
 
   return (
     <div className="section-2 d-flex flex-fill">
@@ -56,22 +70,19 @@ const PrivetChat = () => {
             </div>
             <div>Options</div>
           </header>
-          <div className="chat-body vstack">
+          <div className="chat-body" ref={chatBodyRef}>
             {chatData?.messages &&
               chatData.messages.map((message) => {
+  
                 return (
-                  <div key={message._id} className="d-flex mb-1">
-                    <div className="d-flex align-items-center mr-3">
-                      <img
-                        src={message.profilePic}
-                        alt={message.username}
-                        className="rounded-circle"
-                        width="50"
-                        height="50"
-                      />
-                    </div>
-                    <div className="card bg-light p-3">
-                      <p className="card-text">{message.text}</p>
+                  <div key={message._id} className={`chat-message ${message.from._id === thisUser._id && "mine pl-auto"}`}>
+                    <div className={`text ${message.from._id === thisUser._id && "mine"}`}>{message.text}</div>
+                    <div className="time">
+                      {new Date(message.createdAt).toLocaleTimeString([], {
+                        hour: "numeric",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
                     </div>
                   </div>
                 );
@@ -79,7 +90,7 @@ const PrivetChat = () => {
           </div>
         </>
       )}
-      <MessageBox chatId={chatId} />
+      <MessageBox chatId={chatId}  socket={socket}/>
     </div>
   );
 };
