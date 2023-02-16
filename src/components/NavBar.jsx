@@ -17,7 +17,7 @@ const NavBar = () => {
         <NavLink to="/app" className="mb-4">
             <img
               style={{ width: "64px" }}
-              src={require("../images/Chatbox101.png")}
+              src={require("../images/Chatbox101.PNG")}
               alt="Chatbox101"
             />
           </NavLink>
