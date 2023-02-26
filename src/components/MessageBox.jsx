@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sendMessageSuccess } from "../app/actions";
+import { addMessage, sendMessageSuccess } from "../app/actions";
 import { sendMessage } from "../app/messageAPIS";
 
 function MessageBox({ chatId, socket }) {
@@ -56,13 +56,13 @@ function MessageBox({ chatId, socket }) {
       _id: new Date().toISOString()
     }
     await socket.emit("send_message", message_data)
-    dispatch(sendMessage(chatId, message))
+    dispatch(sendMessage(chatId, message, thisUser._id))
     messageInput.current.value = ""
   }
 
   useEffect(() => {
     socket.on("receive_message", (message_data) => {
-      dispatch(sendMessageSuccess(message_data))
+      dispatch(addMessage(message_data))
     })
   }, [dispatch, socket])
 

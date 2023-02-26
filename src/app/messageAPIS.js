@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  addMessage,
   getMessagesFailed,
   getMessagesRequest,
   getMessagesSuccess,
@@ -23,15 +24,18 @@ export const getMessages = (chatId) => async (dispatch) => {
     dispatch(getMessagesSuccess(data, chatId));
   } catch (err) {
     console.error(err);
-    if (err.response.data.message) {
-      dispatch(getMessagesFailed(err.response.data.message));
-    } else {
-      dispatch(getMessagesFailed(err));
-    }
+    dispatch(getMessagesFailed(err?.response?.data?.message));
   }
 };
 
-export const sendMessage = (chatId, text) => async (dispatch) => {
+export const sendMessage = (chatId, text, thisUserId) => async (dispatch) => {
+  dispatch(addMessage({
+    from: thisUserId,
+    to: chatId,
+    text,
+    createdAt: new Date().toISOString(),
+    _id: new Date().toISOString()
+  }))
   dispatch(sendMessageRequest());
   try {
     const { data } = await axios.post(

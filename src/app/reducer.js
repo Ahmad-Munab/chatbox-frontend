@@ -162,7 +162,7 @@ const reducer = (state = initialStates, action) => {
       };
     case "GET_MESSAGES_SUCCESS":
       const chatId = action.payload.chatId;
-      const chats = state.chats.map((chat) => {
+      const chats = state?.chats?.map((chat) => {
         if (chat._id === chatId) {
           return {
             ...chat,
@@ -194,7 +194,26 @@ const reducer = (state = initialStates, action) => {
         error: null,
       };
     case "SEND_MESSAGE_SUCCESS":
-      const newChats = state.chats.map((chat) => {
+      // let newChats = state.chats.map((chat) => {
+      //   if (chat._id === action.payload.message.to) {
+      //     return {
+      //       ...chat,
+      //       messages: chat.messages
+      //       ? (chat.messages.some((message) => message._id === action.payload.message._id) ? [...chat.messages] : [...chat.messages, action.payload.message])
+      //       : [action.payload.message],
+      //     };
+      //   }
+      //   return chat;
+      // });
+
+      return {
+        ...state,
+        loadingMessages: false,
+        // chats : newChats,
+        error: null,
+      };
+    case "ADD_MESSAGE":
+      let newChats = state.chats.map((chat) => {
         if (chat._id === action.payload.message.to) {
           return {
             ...chat,
@@ -208,7 +227,6 @@ const reducer = (state = initialStates, action) => {
 
       return {
         ...state,
-        loadingMessages: false,
         chats : newChats,
         error: null,
       };

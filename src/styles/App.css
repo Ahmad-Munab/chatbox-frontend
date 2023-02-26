@@ -91,7 +91,7 @@ body,
 .searchIcon {
   position: absolute;
   top: 0.8rem;
-  left: 25.2rem;
+  right: 1rem;
   font-size: 1.47rem;
   transition: all 0.2s;
   color: #709ce6;

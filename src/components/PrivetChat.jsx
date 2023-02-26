@@ -14,29 +14,30 @@ const PrivetChat = ({ socket }) => {
     (state) => state.default
   );
 
-  const [chatData, setChatData] = useState();
+  const [chatData, setChatData] = useState(undefined);
   const chatBodyRef = useRef()
 
   useEffect(() => {
-    let thisChat = chats?.find((chat) => chat._id === chatId)
-    if (Array.isArray(chats) && !chatData && !thisChat?.messages) {
-      dispatch(getMessages(chatId));
-    }
-
     if (!joinedChat) {
       socket.emit("join_chat", chatId)
       setJoinedChat(true)
     }
-  }, [dispatch, chatId, chats, chatData, socket, joinedChat]);
+    if (chatData !== undefined) {
+      if (!chatData.messages || chatData.messages === null) {
+        dispatch(getMessages(chatId))
+      }
+    }
+
+  }, [dispatch, chatId, socket, joinedChat, chatData]);
 
   useEffect(() => {
-    if (chats !== null) {
+    if (chats !== null && chats) {
       setChatData(chats.find((chat) => chat._id === chatId));
     }
   }, [chats, chatId]);
 
   useEffect(() => {
-    if (chatData?.messages?.length > 0) {
+    if (chatData?.messages?.length > 0 && chatBodyRef?.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   }, [chatData]);
@@ -75,8 +76,8 @@ const PrivetChat = ({ socket }) => {
               chatData.messages.map((message) => {
   
                 return (
-                  <div key={message._id} className={`chat-message ${message.from._id === thisUser._id && "mine pl-auto"}`}>
-                    <div className={`text ${message.from._id === thisUser._id && "mine"}`}>{message.text}</div>
+                  <div key={message._id} className={`chat-message ${(message.from._id === thisUser._id || message.from === thisUser._id ) && "mine pl-auto"}`}>
+                    <div className={`text ${(message.from._id === thisUser._id || message.from === thisUser._id ) && "mine"}`}>{message.text}</div>
                     <div className="time">
                       {new Date(message.createdAt).toLocaleTimeString([], {
                         hour: "numeric",
