@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 const NavBar = () => {
   function logout() {
     localStorage.removeItem("jwt");
-    window.location.href = "/login"
+    window.location.href = "/login";
   }
 
   const { thisUser } = useSelector((state) => state.default);
@@ -14,7 +14,7 @@ const NavBar = () => {
     <>
       <div className="navbar">
         <div className="navbar-top">
-        <NavLink to="/app" className="mb-4">
+          <NavLink to="/app" className="mb-4">
             <img
               style={{ width: "64px" }}
               src={require("../images/Chatbox101.PNG")}
@@ -47,54 +47,56 @@ const NavBar = () => {
             <TbUsers className="fs-2" style={{ width: "50px" }} />
           </NavLink>
         </div>
-        {thisUser ? (
-          <div className="navbar-bottom mt-auto vstack gap-5 text-center">
-            <i
-              className="fa-solid fa-arrow-right-from-bracket fs-2 btn hover-shadow-sm"
-              data-bs-toggle="modal"
-              data-bs-target="#logout-modal"
-              
-            />
-            <div className="modal fade" tabIndex="-1" id="logout-modal">
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div className="modal-body">
-                    <h2 className="">Want to logout?</h2>
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      data-bs-dismiss="modal"
-                    >
-                      Never mind
-                    </button>
-                    <button type="button" className="btn btn-danger" onClick={logout}>
-                      Logout
-                    </button>
-                  </div>
+        <div className="navbar-bottom mt-auto vstack gap-5 text-center">
+          <i
+            className="fa-solid fa-arrow-right-from-bracket fs-2 btn hover-shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#logout-modal"
+          />
+          <div className="modal fade" tabIndex="-1" id="logout-modal">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <h2 className="">Want to logout?</h2>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Never mind
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={logout}
+                  >
+                    Logout
+                  </button>
                 </div>
               </div>
             </div>
-            <img
-              src={thisUser.profilePic}
-              alt="Go to Profile"
-              className="btn rounded-circle shadow-md border-2 border-dark p-0 mx-auto"
-              style={{ width: "75px" }}
-            />
           </div>
-        ) : (
-          "Loading..."
-        )}
+          <img
+            src={
+              thisUser
+                ? thisUser.profilePic
+                : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+            }
+            alt="Go to Profile"
+            className="btn rounded-circle shadow-md border-2 border-dark p-0 mx-auto"
+            style={{ width: "75px" }}
+          />
+        </div>
       </div>
       <Outlet />
     </>

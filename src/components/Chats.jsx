@@ -2,9 +2,12 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getChats } from "../app/chatAPIS";
+import FriendsSkeleton from "./FriendsSkeleton";
 
 const Chats = () => {
-  const { chats, loadingChats, thisUser } = useSelector((state) => state.default);
+  const { chats, loadingChats, thisUser } = useSelector(
+    (state) => state.default
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +21,15 @@ const Chats = () => {
         <hr className="w-100 bg-black mt-0" />
         <div className="vstack gap-4 overflow-auto hide-scrollbar">
           {loadingChats || !thisUser ? (
-            <p className="text-center">Loading...</p>
+            <>
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+            </>
           ) : chats !== null && chats.length > 0 ? (
             chats.map((chat) => (
               <NavLink
@@ -34,22 +45,37 @@ const Chats = () => {
                 }}
               >
                 <img
-                className="rounded-circle"
+                  className="rounded-circle"
                   style={{ width: "50px", background: "transparent" }}
-                  src={chat.users[1].profilePic !== thisUser.profilePic ? chat.users[1].profilePic : chat.users[0].profilePic}
-                  alt={chat.users[1].username !== thisUser.username ? chat.users[1].username : chat.users[0].username}
+                  src={
+                    chat.users[1].profilePic !== thisUser.profilePic
+                      ? chat.users[1].profilePic
+                      : chat.users[0].profilePic
+                  }
+                  alt={
+                    chat.users[1].username !== thisUser.username
+                      ? chat.users[1].username
+                      : chat.users[0].username
+                  }
                 />
                 <div className="vstack gap-1 ms-3 text-start ">
-                  <h3 className="m-0">{chat.users[1].username !== thisUser.username ? chat.users[1].username : chat.users[0].username}</h3>
+                  <h3 className="m-0">
+                    {chat.users[1].username !== thisUser.username
+                      ? chat.users[1].username
+                      : chat.users[0].username}
+                  </h3>
                   <div>Last messaage</div>
-                  
                 </div>
               </NavLink>
             ))
           ) : (
             <div className="mt-3 d-flex flex-column justify-content-between align-items-center">
-                <h6 className="text-primary text-center">Add some friends to began chatting :)</h6>
-                <Link to="/app/friends" className="mt-1">Add friends</Link>
+              <h6 className="text-primary text-center">
+                Add some friends to began chatting :)
+              </h6>
+              <Link to="/app/friends" className="mt-1">
+                Add friends
+              </Link>
             </div>
           )}
         </div>

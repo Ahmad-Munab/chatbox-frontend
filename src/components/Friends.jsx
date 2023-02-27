@@ -3,6 +3,7 @@ import SearchUser from "./SearchUser";
 
 import { useSelector, useDispatch } from "react-redux";
 import { getFriends, removeFriend } from "../app/friendAPIS";
+import FriendsSkeleton from "./FriendsSkeleton";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const Friends = () => {
@@ -27,7 +28,15 @@ const Friends = () => {
         <hr className="w-100 bg-black mt-0" />
         <div className="vstack gap-4 overflow-auto hide-scrollbar">
           {loadingFriends ? (
-            <p className="text-center">Loading...</p>
+            <>
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+              <FriendsSkeleton />
+            </>
           ) : friends !== null && friends.length > 0 ? (
             friends.map((friend) => (
               <div
