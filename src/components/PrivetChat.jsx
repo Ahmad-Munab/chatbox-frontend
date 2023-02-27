@@ -20,6 +20,7 @@ const PrivetChat = ({ socket }) => {
   const chatBodyRef = useRef();
 
   useEffect(() => {
+    console.log("joining chat");
     socket.emit("join_chat", chatId);
     if (chatData) {
       if (
@@ -63,7 +64,11 @@ const PrivetChat = ({ socket }) => {
                   : chatData.users[0].profilePic
               }
               alt={chatData.users[0].handle}
-              style={{ width: "60px" }}
+              style={{
+                width: "60px",
+                backgroundSize: "200%",
+                background: "radial-gradient(green, transparent)",
+              }}
               className="rounded-circle"
             />
             <div className="vstack pt-1">

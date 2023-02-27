@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../app/actions";
 import { sendMessage } from "../app/messageAPIS";
 
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
 function MessageBox({ chatId, socket }) {
-    // const [permissionGranted, setPermissionGranted] = useState(false);
+  // const [permissionGranted, setPermissionGranted] = useState(false);
 
   // useEffect(() => {
   //   // Request notification permission
@@ -38,67 +38,110 @@ function MessageBox({ chatId, socket }) {
   //   }
   // };
 
-
-  const messageInput = useRef()
+  const messageInput = useRef();
   const dispatch = useDispatch();
-  const { thisUser } = useSelector((state) => state.default)
+  const { thisUser } = useSelector((state) => state.default);
 
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [amTyping, setAmTyping] = useState(false);
 
   async function handleSendingMessage(e) {
-    e.preventDefault()
-    setShowEmojiPicker(false)
-    let message = messageInput.current.value
+    e.preventDefault();
+    setShowEmojiPicker(false);
+    let message = messageInput.current.value;
     if (!message || message.trim().length === 0) {
-      return
+      return;
     }
 
+    socket.emit("stoped_typing", chatId);
     const message_data = {
       from: thisUser._id,
       to: chatId,
       text: message,
       createdAt: new Date().toISOString(),
-      _id: new Date().toISOString()
+      _id: new Date().toISOString(),
+    };
+    await socket.emit("send_message", message_data);
+    dispatch(sendMessage(chatId, message, thisUser._id));
+    messageInput.current.value = "";
+  }
+
+  async function handleTyping() {
+    if (!amTyping) {
+      setAmTyping(true);
+      console.log("I am Typing...");
+      socket.emit("typing", chatId);
     }
-    await socket.emit("send_message", message_data)
-    dispatch(sendMessage(chatId, message, thisUser._id))
-    messageInput.current.value = ""
+    var timerLength = 2000;
+    setTimeout(() => {
+      socket.emit("stoped_typing", chatId);
+      setAmTyping(false);
+      return
+    }, timerLength);
   }
 
   useEffect(() => {
     socket.on("receive_message", (message_data) => {
-      dispatch(addMessage(message_data))
-    })
-  }, [dispatch, socket])
-
-  
+      dispatch(addMessage(message_data));
+    });
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stoped_typing", () => setIsTyping(false));
+  }, [dispatch, socket]);
 
   return (
-    <form className="chat-footer" onSubmit={handleSendingMessage}>
-      <div className="form-floating d-flex flex-fill justify-conetnt-between align-items-center">
-        {/* <i className="fa-sharp fa-solid fa-link btn fs-2 message-link-icon"/> */}
-        <input
-          type="text"
-          className="form-control"
-          name="message"
-          id="message"
-          placeholder="Send message"
-          ref={messageInput}
-          autoComplete="off"
-          autoFocus={true}
+    <>
+      {isTyping && (
+        <div class="chat-bubble">
+          <div class="typing">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+      )}
+      <form className="chat-footer" onSubmit={handleSendingMessage}>
+        <div className="form-floating d-flex flex-fill justify-conetnt-between align-items-center">
+          {/* <i className="fa-sharp fa-solid fa-link btn fs-2 message-link-icon"/> */}
+          <input
+            type="text"
+            className="form-control"
+            name="message"
+            id="message"
+            placeholder="Send message"
+            ref={messageInput}
+            autoComplete="off"
+            autoFocus={true}
+            onChange={handleTyping}
+          />
+          <label htmlFor="message" className="form-label message-label">
+            Send Message
+          </label>
+          <i
+            className="fa-regular fa-face-smile btn fs-2 message-emoji-icon btn"
+            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+          />
+        </div>
+        <button
+          className="fa-solid fa-arrow-right-long btn btn-primary fs-2"
+          type="submit"
+          style={{ backgroundColor: "#5B96F7" }}
         />
-        <label htmlFor="message" className="form-label message-label">
-          Send Message
-        </label>
-        <i className="fa-regular fa-face-smile btn fs-2 message-emoji-icon btn" onClick={() => setShowEmojiPicker(!showEmojiPicker)}/>
-      </div>
-      <button
-        className="fa-solid fa-arrow-right-long btn btn-primary fs-2"
-        type="submit"
-        style={{ backgroundColor: "#5B96F7"}}
-      />
-      {showEmojiPicker && <div className="emojiPicker"><Picker data={data} onEmojiSelect={(emoji) => {messageInput.current.value = `${messageInput.current.value+emoji.native}`; messageInput.current.focus() }}/></div>}
-    </form>
+        {showEmojiPicker && (
+          <div className="emojiPicker">
+            <Picker
+              data={data}
+              onEmojiSelect={(emoji) => {
+                messageInput.current.value = `${
+                  messageInput.current.value + emoji.native
+                }`;
+                messageInput.current.focus();
+              }}
+            />
+          </div>
+        )}
+      </form>
+    </>
   );
 }
 
