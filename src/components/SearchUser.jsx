@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import UserListItem from "./UserListItem";
 
+import FriendsSkeleton from "./FriendsSkeleton.jsx";
+
 const SearchUser = () => {
   const { users, loadingUsers, friends, thisUser } = useSelector(
     (state) => state.default
@@ -71,7 +73,15 @@ const SearchUser = () => {
                 />
               </div>
               {loadingUsers ? (
-                <p className="m-3 fw-semibold">Loading...</p>
+                <>
+                <FriendsSkeleton />
+                <FriendsSkeleton />
+                <FriendsSkeleton />
+                <FriendsSkeleton />
+                <FriendsSkeleton />
+                <FriendsSkeleton />
+                <FriendsSkeleton />
+              </>
               ) : (
                 users !== null &&
                 thisUser && (

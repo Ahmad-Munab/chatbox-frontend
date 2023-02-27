@@ -10,7 +10,6 @@ import MessagesSkeleton from "./MessagesSkeleton";
 
 const PrivetChat = ({ socket }) => {
   const { chatId } = useParams();
-  const [joinedChat, setJoinedChat] = useState(false);
 
   const dispatch = useDispatch();
   const { chats, loadingMessages, thisUser } = useSelector(
@@ -21,10 +20,7 @@ const PrivetChat = ({ socket }) => {
   const chatBodyRef = useRef();
 
   useEffect(() => {
-    if (!joinedChat) {
-      socket.emit("join_chat", chatId);
-      setJoinedChat(true);
-    }
+    socket.emit("join_chat", chatId);
     if (chatData) {
       if (
         !chats.find((chat) => chat._id === chatId).messages &&
@@ -33,7 +29,7 @@ const PrivetChat = ({ socket }) => {
         dispatch(getMessages(chatId));
       }
     }
-  }, [dispatch, chatId, socket, joinedChat, chatData, loadingMessages, chats]);
+  }, [dispatch, chatId, socket, chatData, loadingMessages, chats]);
 
   useEffect(() => {
     if (chats !== null && chats) {
